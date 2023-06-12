@@ -2,25 +2,47 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { User } from '../../models/user';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'register',
   templateUrl: './register.component.html',
+  providers: [UserService],
 })
 export class RegisterComponent implements OnInit {
-  title: String;
-  user: User;
+  public title: String;
+  public user: User;
+  public status: String;
 
-  constructor(private _route: ActivatedRoute, private _router: Router) {
+  constructor(
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private _userService: UserService
+  ) {
     this.title = 'Registrate';
     this.user = new User('', '', '', '', '', '', 'ROLE_USER', true, '');
-  }
-
-  onSubmit(form: NgForm) {
-    console.log(this.user);
+    this.status = '';
   }
 
   ngOnInit(): void {
     console.log('Componente de registro cargado');
+  }
+
+  onSubmit(form: NgForm) {
+    this._userService.register(this.user).subscribe(
+      (response) => {
+        if (response.user && response.user._id) {
+          this.status = 'success';
+          this.user = new User('', '', '', '', '', '', 'ROLE_USER', true, '');
+          form.resetForm();
+        } else {
+          this.status = 'error';
+        }
+      },
+      (error) => {
+        this.status = 'error';
+        console.log(error);
+      }
+    );
   }
 }
