@@ -8,13 +8,15 @@
   border-bottom: 1px solid #eee;
 }
 
-.input-register {
+.input-register,
+.input-login {
   font-size: 15px;
   font-weight: bold;
   margin-left: 13px;
 }
 
-.btn-register {
+.btn-register,
+.btn-login {
   margin-left: 13px;
   margin-top: 15px;
 }

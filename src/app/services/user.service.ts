@@ -6,7 +6,7 @@ import { GLOBAL } from './global';
 
 @Injectable()
 export class UserService {
-  public url: String;
+  public url: string;
 
   constructor(public _http: HttpClient) {
     this.url = GLOBAL.url;
@@ -17,6 +17,19 @@ export class UserService {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this._http.post(this.url + 'register', params, {
+      headers: headers,
+    });
+  }
+
+  singup(user: User, gettoken = null): Observable<any> {
+    if (gettoken != null) {
+      user = Object.assign(user, { gettoken });
+    }
+
+    let params = JSON.stringify(user);
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this._http.post(this.url + 'auth/login', params, {
       headers: headers,
     });
   }

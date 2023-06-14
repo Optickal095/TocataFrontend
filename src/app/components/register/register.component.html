@@ -67,7 +67,7 @@
         [(ngModel)]="user.email"
         class="form-control"
         required
-        pattern="[a-z0-9._%+-]+@[a-z0-9]+\.[a-z]{2,4}$"
+        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,4}$"
       />
       <div *ngIf="!email.valid && email.touched" class="invalid-feedback">
         ¡El email no es válido!
@@ -88,8 +88,6 @@
         ¡La contraseña es obligatoria!
       </div>
     </div>
-
-    <!-- Otros campos del formulario -->
     <input
       type="submit"
       value="{{ title }}"
