@@ -29,8 +29,16 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this._userService.singup(this.user).subscribe(
       (response) => {
-        console.log(response);
-        this.status = 'success';
+        if (response && response.access && response.user) {
+          const accessToken = response.access;
+          const user = response.user;
+          console.log(accessToken); // Imprime el token de acceso
+          console.log(user); // Imprime el objeto User
+
+          this.status = 'success';
+        } else {
+          this.status = 'error';
+        }
       },
       (error) => {
         let errorMessage = <any>error;
