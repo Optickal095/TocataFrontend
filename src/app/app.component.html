@@ -1,21 +1,35 @@
 <div class="navigation col-lg-12">
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="../assets/images/Tocata.png" alt="Logo" />
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">
-            <img src="../assets/images/Tocata.png" alt="Logo" />
-          </a>
-        </div>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="identity">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+            <a
+              class="nav-link active"
+              aria-current="page"
+              [routerLink]="['/home']"
+              [routerLinkActive]="['active']"
+            >
               <i class="fa-solid fa-list"></i> Publicaciones
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">
-              <i class="fa-solid fa-user"></i> Gente
+              <i class="fa-solid fa-users"></i> Gente
             </a>
           </li>
           <li class="nav-item">
@@ -44,12 +58,47 @@
             </a>
           </li>
         </ul>
-        <form class="d-flex" role="search" *ngIf="identity">
-          <input class="form-control me-2" type="search" aria-label="Search" />
-          <button class="btn btn-outline-success" type="submit">
-            <i class="fa-solid fa-search"></i>
-          </button>
-        </form>
+        <ul class="navbar-nav ms-auto" *ngIf="identity">
+          <form class="d-flex ms-auto" role="search">
+            <input
+              class="form-control me-2"
+              type="search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              Buscar
+            </button>
+          </form>
+          <li class="nav-item avatar"></li>
+          <li class="nav-item dropdown">
+            <a
+              href="#"
+              class="nav-link dropdown-toggle"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {{ identity.firstname }} <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a href="#" class="dropdown-item"
+                  ><i class="fas fa-user"></i> Mi Perfil</a
+                >
+              </li>
+              <li>
+                <a href="#" class="dropdown-item"
+                  ><i class="fas fa-address-card"></i> Mis Datos</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" (click)="logout()"
+                  ><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a
+                >
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>

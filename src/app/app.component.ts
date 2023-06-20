@@ -1,4 +1,5 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UserService } from './services/user.service';
 
 @Component({
@@ -11,7 +12,11 @@ export class AppComponent implements OnInit, DoCheck {
   public title: string;
   public identity: any;
 
-  constructor(private _userService: UserService) {
+  constructor(
+    private _userService: UserService,
+    private _router: Router,
+    private _route: ActivatedRoute
+  ) {
     this.title = 'Tocata';
   }
 
@@ -21,5 +26,11 @@ export class AppComponent implements OnInit, DoCheck {
 
   ngDoCheck() {
     this.identity = this._userService.getIdentity();
+  }
+
+  logout() {
+    localStorage.clear();
+    this.identity = null;
+    this._router.navigate(['/']);
   }
 }

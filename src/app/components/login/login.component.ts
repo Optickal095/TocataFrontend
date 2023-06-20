@@ -40,6 +40,8 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('user', JSON.stringify(user));
 
           this.status = 'success';
+
+          this._router.navigate(['/']);
         } else {
           this.status = 'error';
         }
