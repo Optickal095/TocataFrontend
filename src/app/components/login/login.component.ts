@@ -32,8 +32,12 @@ export class LoginComponent implements OnInit {
         if (response && response.access && response.user) {
           const accessToken = response.access;
           const user = response.user;
+
           console.log(accessToken); // Imprime el token de acceso
           console.log(user); // Imprime el objeto User
+
+          localStorage.setItem('accessToken', accessToken);
+          localStorage.setItem('user', JSON.stringify(user));
 
           this.status = 'success';
         } else {
