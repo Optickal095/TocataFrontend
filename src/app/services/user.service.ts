@@ -9,6 +9,7 @@ export class UserService {
   public url: string;
   public identity: any;
   public token: string | null;
+  public stats: any;
 
   constructor(public _http: HttpClient) {
     this.url = GLOBAL.url;
@@ -16,48 +17,49 @@ export class UserService {
   }
 
   register(user: User): Observable<any> {
-    let params = JSON.stringify(user);
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const params = JSON.stringify(user);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this._http.post(this.url + 'register', params, {
-      headers: headers,
-    });
+    return this._http.post<any>(this.url + 'register', params, { headers });
   }
 
   singup(user: User, gettoken = null): Observable<any> {
     if (gettoken != null) {
-      user = Object.assign(user, { gettoken });
+      user = { ...user, gettoken } as User;
     }
 
-    let params = JSON.stringify(user);
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const params = JSON.stringify(user);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this._http.post(this.url + 'auth/login', params, {
-      headers: headers,
-    });
+    return this._http.post<any>(this.url + 'auth/login', params, { headers });
   }
 
   getIdentity() {
-    let identity = localStorage.getItem('user');
-
-    if (identity !== null && identity !== 'undefined') {
-      this.identity = JSON.parse(identity);
-    } else {
-      this.identity = null;
-    }
-
+    const identityString = localStorage.getItem('user');
+    this.identity = identityString ? JSON.parse(identityString) : null;
     return this.identity;
   }
 
   getToken() {
-    let token = localStorage.getItem('accessToken');
-
-    if (token !== null && token !== 'undefined') {
-      this.token = token;
-    } else {
-      this.token = null;
-    }
-
+    const token = localStorage.getItem('accessToken');
+    this.token = token || null;
     return this.token;
+  }
+
+  getStats() {
+    const statsString = localStorage.getItem('stats');
+    this.stats = statsString ? JSON.parse(statsString) : null;
+    return this.stats;
+  }
+
+  getCounters(userId = null): Observable<any> {
+    let headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', this.getToken() || '');
+
+    let url =
+      userId != null ? this.url + 'counters/' + userId : this.url + 'counters';
+
+    return this._http.get<any>(url, { headers });
   }
 }
