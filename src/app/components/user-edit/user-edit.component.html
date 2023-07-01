@@ -6,7 +6,11 @@
   <div class="alert alert-danger" *ngIf="status === 'error'">
     No se han podido actualizar tus datos
   </div>
-  <form #userEditForm="ngForm" (ngSubmit)="onSubmit()" class="col-lg-12">
+  <form
+    #userEditForm="ngForm"
+    (ngSubmit)="onSubmit()"
+    class="col-lg-12 formData"
+  >
     <p>
       <label for="firstname">Nombre</label>
       <input
@@ -62,6 +66,15 @@
       <span *ngIf="!email.value && email.touched">
         El nombre es obligatorio
       </span>
+    </p>
+
+    <p>
+      <label>Sube tu avatar</label>
+      <input
+        type="file"
+        placeholder="Subir Imagen"
+        (change)="fileChangeEvent($event)"
+      />
     </p>
 
     <input

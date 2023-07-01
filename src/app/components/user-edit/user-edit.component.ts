@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
+import { UploadService } from 'src/app/services/upload.service';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'user-edit',
   templateUrl: './user-edit.component.html',
-  providers: [UserService],
+  styleUrls: ['./user-edit.component.css'],
+  providers: [UserService, UploadService],
 })
 export class UserEditComponent implements OnInit {
   public title: string;
@@ -18,13 +21,16 @@ export class UserEditComponent implements OnInit {
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
-    private _userService: UserService
+    private _userService: UserService,
+    private _uploadService: UploadService
   ) {
     this.title = 'Actualizar mis datos';
     this.user = this._userService.getIdentity();
     this.identity = this.user;
     this.token = this._userService.getToken();
   }
+
+  public filesToUpload: Array<File> = []; // Asignar un valor inicial ([])
 
   ngOnInit(): void {
     console.log(this.user);
@@ -36,9 +42,7 @@ export class UserEditComponent implements OnInit {
     console.log(this.user);
     this._userService.updateUser(this.user).subscribe(
       (response) => {
-        console.log(response.user);
-
-        if (!response.user) {
+        if (response.user == 'undefined') {
           this.status = 'error';
         } else {
           this.status = 'success';
@@ -47,13 +51,17 @@ export class UserEditComponent implements OnInit {
         }
       },
       (error) => {
-        let errorMessage = <any>error;
+        var errorMessage = <any>error;
         console.log(errorMessage);
-
         if (errorMessage != null) {
           this.status = 'error';
         }
       }
     );
+  }
+
+  fileChangeEvent(fileInput: any) {
+    this.filesToUpload = <Array<File>>fileInput.target.files;
+    console.log(this.filesToUpload);
   }
 }

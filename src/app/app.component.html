@@ -59,17 +59,12 @@
           </li>
         </ul>
         <ul class="navbar-nav ms-auto" *ngIf="identity">
-          <form class="d-flex ms-auto" role="search">
-            <input
-              class="form-control me-2"
-              type="search"
-              aria-label="Search"
+          <li class="nav-item avatar">
+            <img
+              src="{{ imageUrl + identity.avatar }}"
+              *ngIf="identity && identity.avatar"
             />
-            <button class="btn btn-outline-success" type="submit">
-              Buscar
-            </button>
-          </form>
-          <li class="nav-item avatar"></li>
+          </li>
           <li class="nav-item dropdown">
             <a
               href="#"

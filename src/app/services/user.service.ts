@@ -35,7 +35,7 @@ export class UserService {
   }
 
   getIdentity() {
-    const identityString = localStorage.getItem('user');
+    let identityString = localStorage.getItem('user');
     this.identity = identityString ? JSON.parse(identityString) : null;
     return this.identity;
   }
