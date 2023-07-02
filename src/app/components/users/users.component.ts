@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { User } from 'src/app/models/user';
+import { Follow } from 'src/app/models/follow';
 import { UserService } from 'src/app/services/user.service';
+import { FollowService } from 'src/app/services/follow.service';
 import { GLOBAL } from 'src/app/services/global';
 
 @Component({
   selector: 'users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css'],
-  providers: [UserService],
+  providers: [UserService, FollowService],
 })
 export class UsersComponent implements OnInit {
   public title: string;
@@ -21,12 +23,15 @@ export class UsersComponent implements OnInit {
   public total;
   public pages;
   public users: User[] = [];
+  public follows: any;
   public status: string;
+  public followUserOver: any;
 
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
-    private _userService: UserService
+    private _userService: UserService,
+    private _followService: FollowService
   ) {
     this.title = 'Gente';
     this.imageUrl = GLOBAL.imageUrl;
@@ -38,6 +43,7 @@ export class UsersComponent implements OnInit {
     this.status = '';
     this.total = 0;
     this.pages = 0;
+    this.follows = [];
   }
 
   ngOnInit() {
@@ -74,6 +80,8 @@ export class UsersComponent implements OnInit {
           this.total = response.total;
           this.users = response.users;
           this.pages = response.pages;
+          this.follows = response.users_following;
+
           if (page > this.pages) {
             this._router.navigate(['/gente', 1]);
           }
@@ -81,6 +89,65 @@ export class UsersComponent implements OnInit {
       },
       (error) => {
         let errorMessage: any = error;
+        console.log(errorMessage);
+
+        if (errorMessage != null) {
+          this.status = 'error';
+        }
+      }
+    );
+  }
+
+  mouseEnter(user_id: any) {
+    this.followUserOver = user_id;
+  }
+
+  mouseLeave(user_id: any) {
+    this.followUserOver = 0;
+  }
+
+  followUser(followed: any) {
+    let follow = JSON.parse(
+      '{ "_id":"\'\'", "user":"' +
+        this.identity._id +
+        '", "followed":"' +
+        followed +
+        '" }'
+    );
+
+    this._followService.addFollow(this.token, follow).subscribe(
+      (response) => {
+        if (!response.followStored) {
+          this.status = 'error';
+        } else {
+          this.status = 'success';
+          this.follows.push(followed);
+          this.followUserOver = followed;
+
+          this.getUsers(this.page);
+        }
+      },
+      (error) => {
+        let errorMessage = <any>error;
+        console.log(errorMessage);
+
+        if (errorMessage != null) {
+          this.status = 'error';
+        }
+      }
+    );
+  }
+
+  unfollowUser(followed: any) {
+    this._followService.deleteFollow(this.token, followed).subscribe(
+      (response) => {
+        let search = this.follows.indexOf(followed);
+        if (search != -1) {
+          this.follows.splice(search, 1);
+        }
+      },
+      (error) => {
+        let errorMessage = <any>error;
         console.log(errorMessage);
 
         if (errorMessage != null) {

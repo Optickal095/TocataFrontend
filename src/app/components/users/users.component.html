@@ -31,18 +31,45 @@
               {{ user.nick }}
             </p>
           </div>
+          <div class="float-end" *ngIf="user._id != identity._id">
+            <button
+              class="btn btn-success"
+              *ngIf="follows.indexOf(user._id) < 0"
+              (click)="followUser(user._id)"
+            >
+              <i class="fa-solid fa-circle-plus"></i> Seguir
+            </button>
+            <button
+              class="btn btn-primary"
+              *ngIf="follows.indexOf(user._id) >= 0"
+              (mouseenter)="mouseEnter(user._id)"
+              (mouseleave)="mouseLeave(user._id)"
+              (click)="unfollowUser(user._id)"
+              [class.btn-danger]="user._id == followUserOver"
+            >
+              <span *ngIf="user._id == followUserOver; else following">
+                <i class="fa-solid fa-circle-minus"></i> Dejar de Seguir
+              </span>
+              <ng-template #following>
+                <i class="fa-solid fa-circle-check"></i> Siguiendo
+              </ng-template>
+            </button>
+          </div>
         </div>
-        <!-- SEGUIR/DEJAR DE SEGUIR-->
       </div>
     </div>
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation example" class="float-end">
       <ul class="pagination">
         <li class="page-item" *ngIf="page == 1">
-          <a class="page-link" [routerLink]="['/gente', nextPage]">Siguiente</a>
+          <a class="page-link nav-button" [routerLink]="['/gente', nextPage]"
+            >Siguiente</a
+          >
         </li>
         <li class="page-item" *ngIf="page > 1 && page < pages">
           <div class="d-flex">
-            <a class="page-link mr-2" [routerLink]="['/gente', prevPage]"
+            <a
+              class="page-link mr-2 nav-button"
+              [routerLink]="['/gente', prevPage]"
               >Anterior</a
             >
             <a class="page-link" [routerLink]="['/gente', nextPage]"
@@ -51,7 +78,9 @@
           </div>
         </li>
         <li class="page-item" *ngIf="page === pages && page !== 1">
-          <a class="page-link" [routerLink]="['/gente', prevPage]">Anterior</a>
+          <a class="page-link nav-button" [routerLink]="['/gente', prevPage]"
+            >Anterior</a
+          >
         </li>
       </ul>
     </nav>
