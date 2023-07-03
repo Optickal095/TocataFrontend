@@ -8,7 +8,7 @@ import { Publication } from '../models/publication';
 export class PublicationService {
   public url: string;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private _http: HttpClient) {
     this.url = GLOBAL.url;
   }
 
@@ -18,7 +18,27 @@ export class PublicationService {
       .set('Content-Type', 'application/json')
       .set('Authorization', token);
 
-    return this.httpClient.post(this.url + 'publication', params, {
+    return this._http.post(this.url + 'publication', params, {
+      headers: headers,
+    });
+  }
+
+  getPublications(token: string, page = 1): Observable<any> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
+
+    return this._http.get(this.url + 'publications/' + page, {
+      headers: headers,
+    });
+  }
+
+  deletePublication(token: string, id: string): Observable<any> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
+
+    return this._http.delete(this.url + 'publications/' + id, {
       headers: headers,
     });
   }
