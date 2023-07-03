@@ -1,88 +1,94 @@
-<div class="col-lg-8">
-  <h1 class="h1-strong">{{ title }}</h1>
+<div class="row">
+  <div class="col-lg-7">
+    <h1 class="h1-strong">{{ title }}</h1>
 
-  <div class="people">
-    <div *ngFor="let user of users" class="item-user">
-      <div class="card">
-        <div class="card-body">
-          <div class="image-user float-start">
-            <a href="#">
-              <img
-                src="{{ imageUrl + user.avatar }}"
-                alt=""
-                class="portrait"
-                *ngIf="user.avatar"
-              />
-              <img
-                src="../../../assets/images/userAvatar.png"
-                alt=""
-                class="portrait"
-                *ngIf="!user.avatar"
-              />
-            </a>
-          </div>
-          <div class="user-name float-sm-start">
-            <p>
-              <a href="" class="name-surname">
-                {{ user.firstname + " " + user.lastname }}
+    <div class="people">
+      <div *ngFor="let user of users" class="item-user">
+        <div class="card">
+          <div class="card-body">
+            <div class="image-user float-start">
+              <a href="#">
+                <img
+                  src="{{ imageUrl + user.avatar }}"
+                  alt=""
+                  class="portrait"
+                  *ngIf="user.avatar"
+                />
+                <img
+                  src="../../../assets/images/userAvatar.png"
+                  alt=""
+                  class="portrait"
+                  *ngIf="!user.avatar"
+                />
               </a>
-            </p>
-            <p class="nickname">
-              {{ user.nick }}
-            </p>
-          </div>
-          <div class="float-end" *ngIf="user._id != identity._id">
-            <button
-              class="btn btn-success"
-              *ngIf="follows.indexOf(user._id) < 0"
-              (click)="followUser(user._id)"
-            >
-              <i class="fa-solid fa-circle-plus"></i> Seguir
-            </button>
-            <button
-              class="btn btn-primary"
-              *ngIf="follows.indexOf(user._id) >= 0"
-              (mouseenter)="mouseEnter(user._id)"
-              (mouseleave)="mouseLeave(user._id)"
-              (click)="unfollowUser(user._id)"
-              [class.btn-danger]="user._id == followUserOver"
-            >
-              <span *ngIf="user._id == followUserOver; else following">
-                <i class="fa-solid fa-circle-minus"></i> Dejar de Seguir
-              </span>
-              <ng-template #following>
-                <i class="fa-solid fa-circle-check"></i> Siguiendo
-              </ng-template>
-            </button>
+            </div>
+            <div class="user-name float-sm-start">
+              <p>
+                <a href="" class="name-surname">
+                  {{ user.firstname + " " + user.lastname }}
+                </a>
+              </p>
+              <p class="nickname">
+                {{ user.nick }}
+              </p>
+            </div>
+            <div class="float-end" *ngIf="user._id != identity._id">
+              <button
+                class="btn btn-success"
+                *ngIf="follows.indexOf(user._id) < 0"
+                (click)="followUser(user._id)"
+              >
+                <i class="fa-solid fa-circle-plus"></i> Seguir
+              </button>
+              <button
+                class="btn btn-primary"
+                *ngIf="follows.indexOf(user._id) >= 0"
+                (mouseenter)="mouseEnter(user._id)"
+                (mouseleave)="mouseLeave(user._id)"
+                (click)="unfollowUser(user._id)"
+                [class.btn-danger]="user._id == followUserOver"
+              >
+                <span *ngIf="user._id == followUserOver; else following">
+                  <i class="fa-solid fa-circle-minus"></i> Dejar de Seguir
+                </span>
+                <ng-template #following>
+                  <i class="fa-solid fa-circle-check"></i> Siguiendo
+                </ng-template>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <nav aria-label="Page navigation example" class="float-end">
-      <ul class="pagination">
-        <li class="page-item" *ngIf="page == 1">
-          <a class="page-link nav-button" [routerLink]="['/gente', nextPage]"
-            >Siguiente</a
-          >
-        </li>
-        <li class="page-item" *ngIf="page > 1 && page < pages">
-          <div class="d-flex">
-            <a
-              class="page-link mr-2 nav-button"
-              [routerLink]="['/gente', prevPage]"
-              >Anterior</a
-            >
-            <a class="page-link" [routerLink]="['/gente', nextPage]"
+      <nav aria-label="Page navigation example" class="float-end">
+        <ul class="pagination">
+          <li class="page-item" *ngIf="page == 1">
+            <a class="page-link nav-button" [routerLink]="['/gente', nextPage]"
               >Siguiente</a
             >
-          </div>
-        </li>
-        <li class="page-item" *ngIf="page === pages && page !== 1">
-          <a class="page-link nav-button" [routerLink]="['/gente', prevPage]"
-            >Anterior</a
-          >
-        </li>
-      </ul>
-    </nav>
+          </li>
+          <li class="page-item" *ngIf="page > 1 && page < pages">
+            <div class="d-flex">
+              <a
+                class="page-link mr-2 nav-button"
+                [routerLink]="['/gente', prevPage]"
+                >Anterior</a
+              >
+              <a class="page-link" [routerLink]="['/gente', nextPage]"
+                >Siguiente</a
+              >
+            </div>
+          </li>
+          <li class="page-item" *ngIf="page === pages && page !== 1">
+            <a class="page-link nav-button" [routerLink]="['/gente', prevPage]"
+              >Anterior</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <sidebar></sidebar>
   </div>
 </div>
+<div class="clearfix"></div>

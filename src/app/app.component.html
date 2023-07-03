@@ -21,7 +21,7 @@
             <a
               class="nav-link active"
               aria-current="page"
-              [routerLink]="['/home']"
+              [routerLink]="['/timeline']"
               [routerLinkActive]="['active']"
             >
               <i class="fa-solid fa-list"></i> Publicaciones
@@ -70,6 +70,10 @@
               *ngIf="identity && identity.avatar"
             />
           </li>
+          <li class="nav-item avatar" *ngIf="!identity.avatar">
+            <img src="../assets/images/userAvatar.png" alt="" />
+          </li>
+
           <li class="nav-item dropdown">
             <a
               href="#"

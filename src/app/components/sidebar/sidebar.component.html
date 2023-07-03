@@ -1,0 +1,81 @@
+<h1 class="h1-strong">Hola, {{ identity.firstname }}</h1>
+<div id="user-card" class="col-lg-4 card float-start">
+  <div class="d-flex align-items-center">
+    <div class="avatar">
+      <img src="{{ imageUrl + identity.avatar }}" *ngIf="identity.avatar" />
+      <img
+        src="../../../assets/images/userAvatar.png"
+        *ngIf="!identity.avatar"
+      />
+    </div>
+
+    <div class="first-lastname ml-3">
+      <a href="">
+        {{ identity.firstname + " " + identity.lastname }}
+      </a>
+      <p class="nickname">{{ identity.nick }}</p>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+
+  <div class="stats" *ngIf="stats">
+    <div class="following-data">
+      <a href="">
+        <span class="label-stats"> Siguiendo </span>
+        <span class="number-stats">
+          {{ stats.following }}
+        </span>
+      </a>
+    </div>
+    <div class="following-data">
+      <a href="">
+        <span class="label-stats"> Seguidores </span>
+        <span class="number-stats">
+          {{ stats.followed }}
+        </span>
+      </a>
+    </div>
+    <div class="following-data">
+      <a href="">
+        <span class="label-stats"> Publicaciones </span>
+        <span class="number-stats">
+          {{ stats.publications }}
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="new-publication" class="col-lg-4 card float-start">
+  <form
+    #newPubForm="ngForm"
+    (ngSubmit)="onSubmit()"
+    class="col-lg-10"
+    action=""
+  >
+    <p>
+      <label class="title">¿Que estás pensando hoy?</label>
+      <textarea
+        name="text"
+        #text="ngModel"
+        [(ngModel)]="publication.text"
+        class="form-control"
+        required
+      ></textarea>
+      <span *ngIf="!text.valid && text.touched"> El texto es obligatorio </span>
+    </p>
+
+    <p>
+      <label class="file">Sube tu foto</label>
+      <input type="file" placeholder="Subir imagen" />
+    </p>
+
+    <input
+      type="submit"
+      value="Enviar"
+      class="btn btn-success"
+      [disabled]="!newPubForm.form.valid"
+    />
+  </form>
+</div>
