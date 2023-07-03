@@ -10,9 +10,7 @@
     </div>
 
     <div class="first-lastname ml-3">
-      <a href="">
-        {{ identity.firstname + " " + identity.lastname }}
-      </a>
+      <a href="">{{ identity.firstname + " " + identity.lastname }}</a>
       <p class="nickname">{{ identity.nick }}</p>
     </div>
   </div>
@@ -23,39 +21,39 @@
     <div class="following-data">
       <a href="">
         <span class="label-stats"> Siguiendo </span>
-        <span class="number-stats">
-          {{ stats.following }}
-        </span>
+        <span class="number-stats">{{ stats.following }}</span>
       </a>
     </div>
     <div class="following-data">
       <a href="">
         <span class="label-stats"> Seguidores </span>
-        <span class="number-stats">
-          {{ stats.followed }}
-        </span>
+        <span class="number-stats">{{ stats.followed }}</span>
       </a>
     </div>
     <div class="following-data">
       <a href="">
         <span class="label-stats"> Publicaciones </span>
-        <span class="number-stats">
-          {{ stats.publications }}
-        </span>
+        <span class="number-stats">{{ stats.publications }}</span>
       </a>
     </div>
   </div>
 </div>
 
 <div id="new-publication" class="col-lg-4 card float-start">
+  <div class="alert alert-success" *ngIf="status === 'success'">
+    Publicación creada correctamente.
+  </div>
+  <div class="alert alert-danger" *ngIf="status === 'error'">
+    Publicación no creada.
+  </div>
   <form
     #newPubForm="ngForm"
-    (ngSubmit)="onSubmit()"
+    (ngSubmit)="onSubmit(newPubForm)"
     class="col-lg-10"
     action=""
   >
     <p>
-      <label class="title">¿Que estás pensando hoy?</label>
+      <label class="title">¿Qué estás pensando hoy?</label>
       <textarea
         name="text"
         #text="ngModel"
@@ -63,7 +61,7 @@
         class="form-control"
         required
       ></textarea>
-      <span *ngIf="!text.valid && text.touched"> El texto es obligatorio </span>
+      <span *ngIf="!text.valid && text.touched">El texto es obligatorio</span>
     </p>
 
     <p>
