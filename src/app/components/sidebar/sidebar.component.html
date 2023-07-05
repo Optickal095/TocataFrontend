@@ -48,7 +48,7 @@
   </div>
   <form
     #newPubForm="ngForm"
-    (ngSubmit)="onSubmit(newPubForm)"
+    (ngSubmit)="onSubmit(newPubForm); sendPublication($event)"
     class="col-lg-10"
     action=""
   >

@@ -1,6 +1,18 @@
 <div class="row">
   <div class="col-lg-8">
-    <h1 class="h1-strong">{{ title }}</h1>
+    <h1 class="h1-strong">
+      {{ title }}
+      <button class="btn btn-primary btn-sm" (click)="refresh($event)">
+        <span
+          *ngIf="loading"
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        <span *ngIf="!loading">Refrescar</span>
+      </button>
+    </h1>
+
     <div id="publications">
       <div *ngFor="let publication of publications" class="item-publication">
         <div class="card">
@@ -21,9 +33,23 @@
                 />
               </a>
             </div>
-            <div class="user-name">
-              {{ publication.user.firstname + " " + publication.user.lastname }}
+            <div>
+              <span class="user-name">
+                {{
+                  publication.user.firstname + " " + publication.user.lastname
+                }}
+              </span>
+              &nbsp;|&nbsp;
+              <span class="date">
+                {{
+                  publication.created_at
+                    | amFromUnix
+                    | amLocale : "es"
+                    | amTimeAgo
+                }}
+              </span>
             </div>
+
             <h4 class="publication-text">
               {{ publication.text }}
             </h4>
@@ -38,7 +64,7 @@
     </div>
   </div>
   <div class="col-lg-4">
-    <sidebar></sidebar>
+    <sidebar (sended)="refresh($event)"></sidebar>
   </div>
   <div class="clearfix"></div>
 </div>

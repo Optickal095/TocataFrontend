@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { GLOBAL } from 'src/app/services/global';
 import { Publication } from 'src/app/models/publication';
@@ -22,7 +23,9 @@ export class SidebarComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private publicationService: PublicationService
+    private publicationService: PublicationService,
+    private _route: ActivatedRoute,
+    private _router: Router
   ) {
     this.identity = this.userService.getIdentity();
     this.token = this.userService.getToken() || '';
@@ -54,6 +57,7 @@ export class SidebarComponent implements OnInit {
               this.identity._id
             );
             form.resetForm();
+            this._router.navigate(['/timeline']);
           } else {
             this.status = 'error';
           }
@@ -62,5 +66,11 @@ export class SidebarComponent implements OnInit {
           this.status = 'error';
         }
       );
+  }
+
+  @Output() sended = new EventEmitter();
+  sendPublication(event: any) {
+    console.log(event);
+    this.sended.emit({ send: 'true' });
   }
 }

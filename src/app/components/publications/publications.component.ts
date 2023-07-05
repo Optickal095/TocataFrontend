@@ -7,12 +7,12 @@ import { PublicationService } from 'src/app/services/publication.service';
 import * as $ from 'jquery';
 
 @Component({
-  selector: 'timeline',
-  templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.css'],
+  selector: 'publications',
+  templateUrl: './publications.component.html',
+  styleUrls: ['./publications.component.css'],
   providers: [UserService, PublicationService],
 })
-export class TimelineComponent implements OnInit {
+export class PublicationsComponent implements OnInit {
   public identity;
   public token;
   public title: string;
@@ -25,7 +25,6 @@ export class TimelineComponent implements OnInit {
   public itemsPerPage;
   public publications: Publication[] = [];
   public noMore: boolean;
-  public loading: boolean;
 
   constructor(
     private _route: ActivatedRoute,
@@ -44,16 +43,14 @@ export class TimelineComponent implements OnInit {
     this.pages = 0;
     this.itemsPerPage = 0;
     this.noMore = false;
-    this.loading = false;
   }
 
   ngOnInit() {
-    console.log('timeline.component cargado correctamente');
+    console.log('publications.component cargado correctamente');
     this.getPublications(this.page);
   }
 
   getPublications(page: any, adding = false) {
-    this.loading = true;
     if (this.token) {
       this._publicationService.getPublications(this.token, page).subscribe(
         (response) => {
@@ -82,12 +79,10 @@ export class TimelineComponent implements OnInit {
           } else {
             this.status = 'error';
           }
-          this.loading = false;
         },
         (error) => {
           this.status = 'error';
           console.log(error);
-          this.loading = false;
         }
       );
     } else {
@@ -104,9 +99,5 @@ export class TimelineComponent implements OnInit {
       this.page += 1;
     }
     this.getPublications(this.page, true);
-  }
-
-  refresh(event: any) {
-    this.getPublications(1);
   }
 }

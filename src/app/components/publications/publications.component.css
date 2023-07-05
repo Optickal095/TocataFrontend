@@ -1,5 +1,6 @@
-.placeholder {
-  width: 100%;
+#publications {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .item-publication {
