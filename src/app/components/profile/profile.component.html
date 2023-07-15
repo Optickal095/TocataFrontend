@@ -1,0 +1,19 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-8">
+      <h1 class="h1-strong">
+        {{ title }}
+      </h1>
+      <div id="data-profile" *ngIf="user">
+        <div class="avatar">
+          <img src="{{ imageUrl + user.avatar }}" *ngIf="user.avatar" />
+          <img src="assets/images/userAvatar.png" *ngIf="!user.avatar" />
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <sidebar></sidebar>
+    </div>
+  </div>
+</div>
