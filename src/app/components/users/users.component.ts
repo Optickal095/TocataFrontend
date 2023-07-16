@@ -44,6 +44,7 @@ export class UsersComponent implements OnInit {
     this.total = 0;
     this.pages = 0;
     this.follows = [];
+    this.followUserOver = 0;
   }
 
   ngOnInit() {

@@ -1,6 +1,6 @@
 #data-profile {
   min-height: 500px;
-  text-align: center;
+  text-align: left;
 }
 
 #data-profile .avatar {
@@ -9,11 +9,48 @@
   border-radius: 100px;
   overflow: hidden;
   margin-right: 15px;
-  margin: 0px auto;
 }
 
 #data-profile .avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+#data-profile .user-name {
+  margin-top: 25px;
+}
+
+#data-profile .user-name .name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #555;
+}
+
+#data-profile .user-name .nick {
+  font-size: 24px;
+  font-weight: normal;
+  color: gray;
+}
+
+.stats {
+  border-left: 4px solid #ccc;
+  margin-left: 35px;
+  padding-left: 25px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stats a {
+  vertical-align: middle;
+  font-size: 20px;
+  line-height: 35px;
+  color: #555;
+  text-decoration: none;
+}
+
+.publications {
+  margin-top: 40px;
 }

@@ -98,10 +98,9 @@ export class TimelineComponent implements OnInit {
   }
 
   viewMore() {
-    if (this.publications.length == this.total) {
+    this.page += 1;
+    if (this.page == this.pages) {
       this.noMore = true;
-    } else {
-      this.page += 1;
     }
     this.getPublications(this.page, true);
   }

@@ -14,14 +14,16 @@ import { GLOBAL } from 'src/app/services/global';
 })
 export class ProfileComponent implements OnInit {
   public title: string;
-  public user: User;
+  public user: any;
   public status: string;
   public identity;
   public token;
-  public stats;
+  public stats: any = {};
   public url;
   public imageUrl;
-  public follow;
+  public followed: boolean;
+  public following: boolean;
+  public followUserOver: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -30,14 +32,18 @@ export class ProfileComponent implements OnInit {
     private _followService: FollowService
   ) {
     this.title = 'Perfil';
-    this.user = new User('', '', '', '', '', '', 'ROLE_USER', true, '');
+    this.user = this.loadPage();
     this.status = '';
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
     this.stats = '';
     this.url = GLOBAL.url;
     this.imageUrl = GLOBAL.imageUrl;
-    this.follow = '';
+    this.followed = false;
+    this.following = false;
+    this._router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
   }
 
   ngOnInit() {
@@ -57,11 +63,24 @@ export class ProfileComponent implements OnInit {
   getUser(id: any) {
     this._userService.getUser(id).subscribe(
       (response) => {
+        console.log(response);
+
         if (response.user) {
           this.user = response.user;
-          console.log(response);
+
+          if (response && response.following && response.following._id) {
+            this.following = true;
+          } else {
+            this.following = false;
+          }
         } else {
           this.status = 'error';
+        }
+
+        if (response && response.followed && response.followed._id) {
+          this.followed = true;
+        } else {
+          this.followed = false;
         }
       },
       (error) => {
@@ -74,11 +93,47 @@ export class ProfileComponent implements OnInit {
   getCounters(id: any) {
     this._userService.getCounters(id).subscribe(
       (response) => {
-        this.status = response;
+        this.stats = response;
       },
       (error) => {
         console.log(error);
       }
     );
+  }
+
+  followUser(followed: string) {
+    if (this.token) {
+      let follow = new Follow('', this.identity._id, followed);
+
+      this._followService.addFollow(this.token, follow).subscribe(
+        (response) => {
+          this.following = true;
+        },
+        (error) => {
+          console.log(<any>error);
+        }
+      );
+    }
+  }
+
+  unfollowUser(followed: string) {
+    if (this.token) {
+      this._followService.deleteFollow(this.token, followed).subscribe(
+        (response) => {
+          this.following = false;
+        },
+        (error) => {
+          console.log(<any>error);
+        }
+      );
+    }
+  }
+
+  mouseEnter(user_id: any) {
+    this.followUserOver = user_id;
+  }
+
+  mouseLeave() {
+    this.followUserOver = 0;
   }
 }

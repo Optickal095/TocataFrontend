@@ -5,9 +5,46 @@
         {{ title }}
       </h1>
       <div id="data-profile" *ngIf="user">
-        <div class="avatar">
-          <img src="{{ imageUrl + user.avatar }}" *ngIf="user.avatar" />
-          <img src="assets/images/userAvatar.png" *ngIf="!user.avatar" />
+        <div class="d-flex align-items-center">
+          <div class="avatar">
+            <img src="{{ imageUrl + user.avatar }}" *ngIf="user.avatar" />
+            <img src="assets/images/userAvatar.png" *ngIf="!user.avatar" />
+          </div>
+
+          <div class="user-name">
+            <div class="follow">
+              <div class="badge bg-secondary" *ngIf="followed">Te Sigue</div>
+            </div>
+
+            <div class="">
+              <p class="name">{{ user.firstname + " " + user.lastname }}</p>
+              <p class="nick">{{ user.nick }}</p>
+            </div>
+          </div>
+
+          <div class="stats ml-auto">
+            <div class="following-data">
+              <a href="">
+                <span class="label-stats"> Siguiendo </span>
+                <span class="number-stats">{{ stats.following }}</span>
+              </a>
+            </div>
+            <div class="following-data">
+              <a href="">
+                <span class="label-stats"> Seguidores </span>
+                <span class="number-stats">{{ stats.followed }}</span>
+              </a>
+            </div>
+            <div class="following-data">
+              <a href="">
+                <span class="label-stats"> Publicaciones </span>
+                <span class="number-stats">{{ stats.publications }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 publications" *ngIf="user">
+          <publications [user]="user._id"></publications>
         </div>
       </div>
     </div>

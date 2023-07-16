@@ -57,11 +57,16 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-lg-12 text-center">
-        <button class="btn btn-success" (click)="viewMore()" *ngIf="!noMore">
-          Ver más
-        </button>
+        <div class="col-lg-12 text-center" *ngIf="publications.length === 0">
+          <p>No hay publicaciones disponibles.</p>
+          <p>Ve a seguir gente!</p>
+        </div>
+        <div
+          class="col-lg-12 text-center"
+          *ngIf="publications.length > 0 && !noMore"
+        >
+          <button class="btn btn-success" (click)="viewMore()">Ver más</button>
+        </div>
       </div>
     </div>
     <div class="col-lg-4">

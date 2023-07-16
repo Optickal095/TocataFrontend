@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Publication } from 'src/app/models/publication';
 import { GLOBAL } from 'src/app/services/global';
@@ -13,6 +13,7 @@ import * as $ from 'jquery';
   providers: [UserService, PublicationService],
 })
 export class PublicationsComponent implements OnInit {
+  @Input() user: string;
   public identity;
   public token;
   public title: string;
@@ -43,48 +44,51 @@ export class PublicationsComponent implements OnInit {
     this.pages = 0;
     this.itemsPerPage = 0;
     this.noMore = false;
+    this.user = '';
   }
 
   ngOnInit() {
     console.log('publications.component cargado correctamente');
-    this.getPublications(this.page);
+    this.getPublications(this.user, this.page);
   }
 
-  getPublications(page: any, adding = false) {
+  getPublications(user: string, page: any, adding = false) {
     if (this.token) {
-      this._publicationService.getPublications(this.token, page).subscribe(
-        (response) => {
-          console.log(response);
+      this._publicationService
+        .getPublicationsUser(this.token, user, page)
+        .subscribe(
+          (response) => {
+            console.log(response);
 
-          if (response.publications) {
-            this.total = response.total_items;
-            this.pages = response.pages;
-            this.itemsPerPage = response.itemsPerPage;
-            if (!adding) {
-              this.publications = response.publications;
+            if (response.publications) {
+              this.total = response.total_items;
+              this.pages = response.pages;
+              this.itemsPerPage = response.itemsPerPage;
+              if (!adding) {
+                this.publications = response.publications;
+              } else {
+                let arrayA = this.publications;
+                let arrayB = response.publications;
+                this.publications = arrayA.concat(arrayB);
+
+                $('html, body').animate(
+                  { scrollTop: $('html').prop('scrollHeight') },
+                  1000
+                );
+              }
+
+              if (page > this.pages) {
+                //this._router.navigate(['/home']);
+              }
             } else {
-              let arrayA = this.publications;
-              let arrayB = response.publications;
-              this.publications = arrayA.concat(arrayB);
-
-              $('html, body').animate(
-                { scrollTop: $('body').prop('scrollHeight') },
-                1000
-              );
+              this.status = 'error';
             }
-
-            if (page > this.pages) {
-              //this._router.navigate(['/home']);
-            }
-          } else {
+          },
+          (error) => {
             this.status = 'error';
+            console.log(error);
           }
-        },
-        (error) => {
-          this.status = 'error';
-          console.log(error);
-        }
-      );
+        );
     } else {
       // Manejar caso de token nulo
       this.status = 'error';
@@ -93,11 +97,10 @@ export class PublicationsComponent implements OnInit {
   }
 
   viewMore() {
-    if (this.publications.length == this.total) {
+    this.page += 1;
+    if (this.page == this.pages) {
       this.noMore = true;
-    } else {
-      this.page += 1;
     }
-    this.getPublications(this.page, true);
+    this.getPublications(this.user, this.page, true);
   }
 }

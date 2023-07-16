@@ -7,7 +7,7 @@
           <div class="card">
             <div class="card-body">
               <div class="image-user float-start">
-                <a href="#">
+                <a [routerLink]="['/perfil', user._id]">
                   <img
                     src="{{ imageUrl + user.avatar }}"
                     alt=""
@@ -24,7 +24,7 @@
               </div>
               <div class="user-name float-sm-start">
                 <p>
-                  <a href="" class="name-surname">
+                  <a [routerLink]="['/perfil', user._id]" class="name-surname">
                     {{ user.firstname + " " + user.lastname }}
                   </a>
                 </p>

@@ -40,6 +40,10 @@
   text-decoration: none;
 }
 
+.item-user .user-name .name-surname:hover {
+  text-decoration: underline;
+}
+
 .nav-button {
   text-align: center;
 }
