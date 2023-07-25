@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { UploadService } from 'src/app/services/upload.service';
+import { GLOBAL } from 'src/app/services/global';
 import { catchError } from 'rxjs/operators';
 
 @Component({
@@ -17,6 +18,9 @@ export class UserEditComponent implements OnInit {
   public identity;
   public token;
   public status: string = '';
+  public filesToUpload: Array<File> = [];
+  public url: string;
+  public imageUrl: string;
 
   constructor(
     private _route: ActivatedRoute,
@@ -28,9 +32,9 @@ export class UserEditComponent implements OnInit {
     this.user = this._userService.getIdentity();
     this.identity = this.user;
     this.token = this._userService.getToken();
+    this.url = GLOBAL.url;
+    this.imageUrl = GLOBAL.imageUrl;
   }
-
-  public filesToUpload: Array<File> = []; // Asignar un valor inicial ([])
 
   ngOnInit(): void {
     console.log(this.user);
@@ -48,6 +52,19 @@ export class UserEditComponent implements OnInit {
           this.status = 'success';
           localStorage.setItem('identity', JSON.stringify(this.user));
           this.identity = this.user;
+
+          this._uploadService
+            .makeFileRequest(
+              this.url + 'upload-image-user/' + this.user._id,
+              [],
+              this.filesToUpload,
+              this.token ?? '', // <-- Usar el operador de fusión nula para proporcionar una cadena vacía en caso de que this.token sea nulo
+              'avatar'
+            )
+            .then((result: any) => {
+              this.user.avatar = result.user.avatar;
+              localStorage.setItem('identity', JSON.stringify(this.user));
+            });
         }
       },
       (error) => {

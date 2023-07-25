@@ -68,6 +68,10 @@
       </span>
     </p>
 
+    <div class="userAvatar" *ngIf="user.avatar">
+      <img src="{{ imageUrl + user.avatar }}" alt="" />
+    </div>
+
     <p>
       <label>Sube tu avatar</label>
       <input

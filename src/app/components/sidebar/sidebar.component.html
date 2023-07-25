@@ -10,7 +10,9 @@
     </div>
 
     <div class="first-lastname ml-3">
-      <a href="">{{ identity.firstname + " " + identity.lastname }}</a>
+      <a [routerLink]="['/perfil', identity._id]">{{
+        identity.firstname + " " + identity.lastname
+      }}</a>
       <p class="nickname">{{ identity.nick }}</p>
     </div>
   </div>
@@ -66,7 +68,11 @@
 
     <p>
       <label class="file">Sube tu foto</label>
-      <input type="file" placeholder="Subir imagen" />
+      <input
+        type="file"
+        placeholder="Subir imagen"
+        (change)="fileChangeEvent($event)"
+      />
     </p>
 
     <input

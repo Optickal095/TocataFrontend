@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Publication } from 'src/app/models/publication';
+import { User } from 'src/app/models/user';
 import { GLOBAL } from 'src/app/services/global';
 import { UserService } from 'src/app/services/user.service';
 import { PublicationService } from 'src/app/services/publication.service';
@@ -24,6 +25,7 @@ export class TimelineComponent implements OnInit {
   public pages;
   public itemsPerPage;
   public publications: Publication[] = [];
+  public users: User[] = [];
   public noMore: boolean;
   public loading: boolean;
 

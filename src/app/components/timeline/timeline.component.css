@@ -23,6 +23,12 @@
 
 .item-publication .user-name {
   margin-left: 25px;
+  color: #444;
+  text-decoration: none;
+}
+
+.item-publication .user-name:hover {
+  text-decoration: underline;
 }
 
 .item-publication .date {

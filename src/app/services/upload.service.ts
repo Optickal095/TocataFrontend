@@ -11,17 +11,63 @@ export class UploadService {
     this.url = GLOBAL.url;
   }
 
-  uploadImage(userId: string, file: File): Observable<any> {
-    const formData: FormData = new FormData();
-    formData.append('image', file, file.name);
+  makeFileRequest(
+    url: string,
+    params: Array<string>,
+    files: Array<File>,
+    token: string,
+    name: string
+  ) {
+    return new Promise(function (resolve, reject) {
+      let formData: any = new FormData();
+      let xhr = new XMLHttpRequest();
 
-    const headers = new HttpHeaders().set(
-      'Authorization',
-      'Bearer your_auth_token'
-    );
+      for (let i = 0; i < files.length; i++) {
+        formData.append(name, files[i], files[i].name);
+      }
 
-    return this.http.post(`${this.url}/user/${userId}/upload-image`, formData, {
-      headers,
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+            resolve(JSON.parse(xhr.response));
+          } else {
+            reject(xhr.response);
+          }
+        }
+      };
+
+      xhr.open('POST', url, true);
+      xhr.setRequestHeader('Authorization', token);
+      xhr.send(formData);
+    });
+  }
+
+  uploadFile(
+    url: string,
+    files: Array<File>,
+    token: string,
+    name: string
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const formData: FormData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        formData.append(name, files[i], files[i].name);
+      }
+
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            resolve(JSON.parse(xhr.response));
+          } else {
+            reject(xhr.response);
+          }
+        }
+      };
+
+      xhr.open('POST', url, true);
+      xhr.setRequestHeader('Authorization', token);
+      xhr.send(formData);
     });
   }
 }
