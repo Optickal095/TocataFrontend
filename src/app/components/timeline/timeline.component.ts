@@ -28,6 +28,7 @@ export class TimelineComponent implements OnInit {
   public users: User[] = [];
   public noMore: boolean;
   public loading: boolean;
+  public showImage;
 
   constructor(
     private _route: ActivatedRoute,
@@ -47,6 +48,7 @@ export class TimelineComponent implements OnInit {
     this.itemsPerPage = 0;
     this.noMore = false;
     this.loading = false;
+    this.showImage = '';
   }
 
   ngOnInit() {
@@ -107,7 +109,32 @@ export class TimelineComponent implements OnInit {
     this.getPublications(this.page, true);
   }
 
-  refresh(event: any) {
+  refresh() {
     this.getPublications(1);
+  }
+
+  showThisImage(id: any) {
+    this.showImage = id;
+  }
+
+  hideThisImage(id: any) {
+    this.showImage = '';
+  }
+
+  deletePublication(id: any) {
+    if (this.token && typeof id === 'string') {
+      this._publicationService.deletePublication(this.token, id).subscribe(
+        (response) => {
+          this.refresh();
+        },
+        (error) => {
+          console.log(<any>error);
+        }
+      );
+    } else {
+      console.log(
+        'El token o el ID de la publicación son nulos o no son válidos.'
+      );
+    }
   }
 }

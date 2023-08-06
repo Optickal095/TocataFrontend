@@ -58,6 +58,7 @@ export class SidebarComponent implements OnInit {
       console.log('El formulario no es válido. Verifica los campos.');
       return;
     }
+
     this.publicationService
       .addPublication(this.token, this.publication, this.file)
       .subscribe(
@@ -73,21 +74,25 @@ export class SidebarComponent implements OnInit {
               this.identity._id
             );
 
-            this._uploadService
-              .makeFileRequest(
-                this.url + 'upload-image-pub/' + response._id,
-                [], // Si tienes algún dato adicional para enviar en la solicitud, puedes agregarlo aquí
-                this.filesToUpload,
-                this.token,
-                'file'
-              )
-              .then((result: any) => {
-                // Aquí puedes procesar la respuesta de subida de imagen si lo necesitas
-                // this.publication.file = result.image;
-                this.status = 'success';
-                form.reset();
-                this._router.navigate(['/timeline']);
-              });
+            if (this.filesToUpload.length > 0) {
+              this._uploadService
+                .makeFileRequest(
+                  this.url + 'upload-image-pub/' + response._id,
+                  [],
+                  this.filesToUpload,
+                  this.token,
+                  'file'
+                )
+                .then((result: any) => {
+                  this.status = 'success';
+                  form.reset();
+                  this._router.navigate(['/timeline']);
+                });
+            } else {
+              this.status = 'success';
+              form.reset();
+              this._router.navigate(['/timeline']);
+            }
           } else {
             this.status = 'error';
           }
