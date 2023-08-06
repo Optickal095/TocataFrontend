@@ -1,3 +1,44 @@
-<div id="avisos">
-  <h1 class="h1-strong">{{ title }}</h1>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="h1-strong">
+        {{ title }}
+      </h1>
+
+      <div id="notices">
+        <div *ngFor="let notice of fetchedNotices" class="item-notices">
+          <div class="card">
+            <div class="card-body">
+              <div class="image-user float start">
+                <a [routerLink]="['/perfil', notice.user._id]">
+                  <img
+                    src="{{ imageUrl + notice.user.avatar }}"
+                    alt=""
+                    class="potrait"
+                    *ngIf="notice.user.avatar"
+                  />
+                  <img
+                    src="../../../assets/images/userAvatar.png"
+                    alt=""
+                    class="portrait"
+                    *ngIf="!notice.user.avatar"
+                  />
+                </a>
+              </div>
+              <div>
+                <ng-container *ngIf="notice.user && notice.user._id">
+                  <a
+                    [routerLink]="['/perfil', notice.user._id]"
+                    class="user-name"
+                  >
+                    {{ notice.user.firstname + " " + notice.user.lastname }}
+                  </a>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

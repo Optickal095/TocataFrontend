@@ -24,6 +24,8 @@ export class NoticeComponent implements OnInit {
   public pages;
   public itemsPerPage;
   public notices: Notice[] = [];
+  public noMore: boolean;
+  public fetchedNotices: Notice[] = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -41,9 +43,50 @@ export class NoticeComponent implements OnInit {
     this.pages = 0;
     this.itemsPerPage = 0;
     this.user = '';
+    this.noMore = false;
   }
 
   ngOnInit() {
     console.log('notice.component cargado correctamente');
+    this.getNotices(this.page);
+  }
+
+  getNotices(page: any) {
+    if (this.token) {
+      this._noticeService.getNotices(this.token, page).subscribe(
+        (response) => {
+          console.log(response);
+
+          if (response.notices) {
+            this.fetchedNotices = response.notices;
+            this.total = response.total_items;
+            this.pages = response.pages;
+            this.itemsPerPage = response.itemsPerPage;
+
+            if (page > this.pages) {
+              //this._router.navigate(['/home']);
+            }
+          } else {
+            this.status = 'error';
+          }
+        },
+        (error) => {
+          this.status = 'error';
+          console.log(error);
+        }
+      );
+    } else {
+      // Manejar caso de token nulo
+      this.status = 'error';
+      console.log('Token is null');
+    }
+  }
+
+  viewMore() {
+    this.page += 1;
+    if (this.page == this.pages) {
+      this.noMore = true;
+    }
+    this.getNotices(this.page);
   }
 }

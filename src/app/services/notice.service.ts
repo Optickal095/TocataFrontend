@@ -20,8 +20,10 @@ export class NoticeService {
     return this._http.post(this.url + 'notice', notice, { headers: headers });
   }
 
-  getNotices(page = 1): Observable<any> {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+  getNotices(token: string, page = 1): Observable<any> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
 
     return this._http.get(this.url + 'notices/' + page, { headers: headers });
   }

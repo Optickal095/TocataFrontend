@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'timeline', component: TimelineComponent },
   { path: 'perfil/:id', component: ProfileComponent },
   { path: 'siguiendo/:id/:page', component: FollowingComponent },
-  { path: 'avisos', component: NoticeComponent },
+  { path: 'avisos/:page', component: NoticeComponent },
   { path: '**', component: HomeComponent },
 ];
 
