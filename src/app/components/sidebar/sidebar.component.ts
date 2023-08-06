@@ -55,7 +55,6 @@ export class SidebarComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     if (!form.valid) {
-      // Si el formulario no es válido, detener el envío y mostrar un mensaje de error.
       console.log('El formulario no es válido. Verifica los campos.');
       return;
     }
@@ -74,26 +73,21 @@ export class SidebarComponent implements OnInit {
               this.identity._id
             );
 
-            if (this.filesToUpload.length > 0) {
-              this._uploadService
-                .uploadFile(
-                  `${this.url}/publication/`,
-                  this.filesToUpload,
-                  this.token,
-                  'file'
-                )
-                .then(
-                  (result: any) => {
-                    this.publication.file = result.file;
-                    this.status = 'success';
-                    form.resetForm();
-                    this._router.navigate(['/timeline']);
-                  },
-                  (error: any) => {
-                    console.error(error);
-                  }
-                );
-            }
+            this._uploadService
+              .makeFileRequest(
+                this.url + 'upload-image-pub/' + response._id,
+                [], // Si tienes algún dato adicional para enviar en la solicitud, puedes agregarlo aquí
+                this.filesToUpload,
+                this.token,
+                'file'
+              )
+              .then((result: any) => {
+                // Aquí puedes procesar la respuesta de subida de imagen si lo necesitas
+                // this.publication.file = result.image;
+                this.status = 'success';
+                form.reset();
+                this._router.navigate(['/timeline']);
+              });
           } else {
             this.status = 'error';
           }
