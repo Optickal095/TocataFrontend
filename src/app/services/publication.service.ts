@@ -12,13 +12,18 @@ export class PublicationService {
     this.url = GLOBAL.url;
   }
 
-  addPublication(token: string, publication: Publication): Observable<any> {
-    const params = JSON.stringify(publication);
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Authorization', token);
+  addPublication(
+    token: string,
+    publication: Publication,
+    file: File
+  ): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('text', publication.text);
+    formData.append('file', file);
 
-    return this._http.post(this.url + 'publication', params, {
+    const headers = new HttpHeaders().set('Authorization', token);
+
+    return this._http.post(this.url + 'publication', formData, {
       headers: headers,
     });
   }

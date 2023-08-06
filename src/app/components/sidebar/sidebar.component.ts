@@ -22,6 +22,7 @@ export class SidebarComponent implements OnInit {
   public status: string;
   public publication: Publication;
   public filesToUpload: Array<File>;
+  public file: File;
 
   constructor(
     private userService: UserService,
@@ -45,6 +46,7 @@ export class SidebarComponent implements OnInit {
     );
 
     this.filesToUpload = [];
+    this.file = new File([], '');
   }
 
   ngOnInit() {
@@ -52,18 +54,18 @@ export class SidebarComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+    if (!form.valid) {
+      // Si el formulario no es válido, detener el envío y mostrar un mensaje de error.
+      console.log('El formulario no es válido. Verifica los campos.');
+      return;
+    }
     this.publicationService
-      .addPublication(this.token, this.publication)
+      .addPublication(this.token, this.publication, this.file)
       .subscribe(
         (response) => {
-          // Maneja la respuesta de la creación de la publicación
           console.log(response);
 
           if (response && response._id) {
-            // Publicación creada exitosamente
-            this.status = 'success';
-
-            // Reinicia el formulario y la variable de publicación
             this.publication = new Publication(
               '',
               '',
@@ -71,12 +73,7 @@ export class SidebarComponent implements OnInit {
               '',
               this.identity._id
             );
-            form.resetForm();
 
-            // Navega al timeline u otra ruta deseada después de agregar la publicación
-            this._router.navigate(['/timeline']);
-
-            // Subir la imagen después de agregar la publicación, si hay archivos seleccionados
             if (this.filesToUpload.length > 0) {
               this._uploadService
                 .uploadFile(
@@ -87,22 +84,21 @@ export class SidebarComponent implements OnInit {
                 )
                 .then(
                   (result: any) => {
-                    // Maneja el resultado de la subida de la imagen si es necesario
-                    console.log(result);
+                    this.publication.file = result.file;
+                    this.status = 'success';
+                    form.resetForm();
+                    this._router.navigate(['/timeline']);
                   },
                   (error: any) => {
-                    // Maneja errores en la subida de la imagen si es necesario
                     console.error(error);
                   }
                 );
             }
           } else {
-            // Error al crear la publicación
             this.status = 'error';
           }
         },
         (error) => {
-          // Maneja errores al agregar la publicación
           this.status = 'error';
         }
       );
