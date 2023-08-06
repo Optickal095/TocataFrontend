@@ -87,11 +87,13 @@ export class SidebarComponent implements OnInit {
                   this.status = 'success';
                   form.reset();
                   this._router.navigate(['/timeline']);
+                  this.sended.emit({ send: 'true' });
                 });
             } else {
               this.status = 'success';
               form.reset();
               this._router.navigate(['/timeline']);
+              this.sended.emit({ send: 'true' });
             }
           } else {
             this.status = 'error';
