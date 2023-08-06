@@ -10,6 +10,7 @@ import { UsersComponent } from './components/users/users.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FollowingComponent } from './components/following/following.component';
+import { NoticeComponent } from './components/notice/notice.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'timeline', component: TimelineComponent },
   { path: 'perfil/:id', component: ProfileComponent },
   { path: 'siguiendo/:id/:page', component: FollowingComponent },
+  { path: 'avisos', component: NoticeComponent },
   { path: '**', component: HomeComponent },
 ];
 
