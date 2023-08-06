@@ -12,6 +12,8 @@ export class Notice {
       firstname: string;
       lastname: string;
       avatar: string;
-    }
+    },
+    public phone: string,
+    public email: string
   ) {}
 }
