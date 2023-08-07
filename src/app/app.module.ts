@@ -18,6 +18,7 @@ import { PublicationsComponent } from './components/publications/publications.co
 import { ProfileComponent } from './components/profile/profile.component';
 import { FollowingComponent } from './components/following/following.component';
 import { NoticeComponent } from './components/notice/notice.component';
+import { addNoticeComponent } from './components/addnotice/addnotice.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { NoticeComponent } from './components/notice/notice.component';
     ProfileComponent,
     FollowingComponent,
     NoticeComponent,
+    addNoticeComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,92 @@
+<!-- addnotice.component.html -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="h1-strong">Agregar Nuevo Aviso</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <form (ngSubmit)="onSubmitAddNotice()">
+        <div class="mb-3">
+          <label for="title" class="form-label">Título del aviso</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            [(ngModel)]="notice.title"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="text" class="form-label">Texto del aviso</label>
+          <textarea
+            class="form-control"
+            id="text"
+            name="text"
+            rows="4"
+            [(ngModel)]="notice.text"
+            required
+          ></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="date" class="form-label">Fecha y hora del aviso</label>
+          <input
+            type="datetime-local"
+            class="form-control"
+            id="date"
+            name="date"
+            [(ngModel)]="notice.date"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="region" class="form-label">Región del aviso</label>
+          <input
+            type="text"
+            class="form-control"
+            id="region"
+            name="region"
+            [(ngModel)]="notice.region"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="city" class="form-label">Ciudad del aviso</label>
+          <input
+            type="text"
+            class="form-control"
+            id="city"
+            name="city"
+            [(ngModel)]="notice.city"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="contact" class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="contact"
+            name="contact"
+            [(ngModel)]="notice.email"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="contact" class="form-label">Teléfono</label>
+          <input
+            type="text"
+            class="form-control"
+            id="contact"
+            name="contact"
+            [(ngModel)]="notice.phone"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Aviso</button>
+      </form>
+    </div>
+  </div>
+</div>
