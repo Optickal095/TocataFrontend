@@ -9,6 +9,9 @@ import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { UsersComponent } from './components/users/users.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { FollowingComponent } from './components/following/following.component';
+import { NoticeComponent } from './components/notice/notice.component';
+import { addNoticeComponent } from './components/addnotice/addnotice.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,6 +23,9 @@ const routes: Routes = [
   { path: 'gente/:page', component: UsersComponent },
   { path: 'timeline', component: TimelineComponent },
   { path: 'perfil/:id', component: ProfileComponent },
+  { path: 'siguiendo/:id/:page', component: FollowingComponent },
+  { path: 'avisos/:page', component: NoticeComponent },
+  { path: 'addnotice', component: addNoticeComponent },
   { path: '**', component: HomeComponent },
 ];
 

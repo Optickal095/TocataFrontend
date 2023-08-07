@@ -1,0 +1,58 @@
+.item-notices {
+  margin-bottom: 10px;
+  margin-left: 13px;
+}
+
+.item-notices .image-user {
+  position: relative;
+  width: 75px;
+  height: 75px;
+  overflow: hidden;
+}
+
+.item-notices .image-user img {
+  position: absolute;
+  height: 100%;
+  width: auto;
+  border-radius: 100px;
+  object-fit: cover;
+}
+
+.item-notices .user-name {
+  margin-left: 25px;
+  color: #444;
+  text-decoration: none;
+}
+
+.item-notices .user-name:hover {
+  text-decoration: underline;
+}
+
+.item-notices .notice-title {
+  margin-left: 25px;
+  color: #444;
+}
+.item-notices .notice-text {
+  font-size: 24px;
+  margin-left: 25px;
+  color: #444;
+}
+
+.item-notices .date {
+  color: gray;
+}
+
+.item-notices .notice-city {
+  font-size: 15px;
+  color: rgb(3, 99, 3);
+}
+
+.item-notices .notice-date {
+  font-size: 15px;
+  color: rgb(139, 6, 13);
+}
+
+.item-notices .notice-contact {
+  font-size: 15px;
+  color: rgb(2, 2, 92);
+}
