@@ -4,7 +4,7 @@ export class Notice {
     public title: string,
     public text: string,
     public created_at: string,
-    public date: Date,
+    public date: string,
     public region: string,
     public city: string,
     public user: {

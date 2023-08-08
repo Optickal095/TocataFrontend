@@ -29,17 +29,15 @@
             required
           ></textarea>
         </div>
-        <div class="mb-3">
-          <label for="date" class="form-label">Fecha y hora del aviso</label>
-          <input
-            type="datetime-local"
-            class="form-control"
-            id="date"
-            name="date"
-            [(ngModel)]="notice.date"
-            required
-          />
-        </div>
+        <input
+          type="datetime-local"
+          class="form-control"
+          id="date"
+          name="date"
+          [ngModel]="formattedDate"
+          (ngModelChange)="onDateChange($event)"
+          required
+        />
         <div class="mb-3">
           <label for="region" class="form-label">Región</label>
           <select

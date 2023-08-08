@@ -7,6 +7,7 @@ import { NoticeService } from 'src/app/services/notice.service';
 import { DpaService } from 'src/app/services/dpa.service';
 import { RegionData, Region } from 'src/app/models/region';
 import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
 
 @Component({
   selector: 'addnotice',
@@ -40,7 +41,7 @@ export class addNoticeComponent implements OnInit {
       '',
       '',
       '',
-      new Date('1995-12-17T03:24:00'),
+      '',
       '',
       '',
       this.identity._id || '',
@@ -48,6 +49,7 @@ export class addNoticeComponent implements OnInit {
       ''
     );
     this.regionData = { regiones: [] };
+    this.formattedDate = '';
   }
 
   ngOnInit() {
@@ -57,6 +59,9 @@ export class addNoticeComponent implements OnInit {
 
   onSubmitAddNotice() {
     console.log('Nuevo aviso:', this.notice);
+
+    const unixDate = moment(this.formattedDate, 'DD/MM/YYYY HH:mm').unix();
+    this.notice.date = unixDate.toString();
 
     this._noticeService.saveNotice(this.token, this.notice).subscribe(
       (response) => {
@@ -90,5 +95,12 @@ export class addNoticeComponent implements OnInit {
     } else {
       this.selectedRegionComunas = [];
     }
+  }
+
+  onDateChange(dateValue: string) {
+    this.formattedDate = dateValue;
+
+    const unixDate = moment(dateValue, 'YYYY/MM/DD HH:mm').unix();
+    this.notice.date = unixDate.toString();
   }
 }
