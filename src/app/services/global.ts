@@ -1,4 +1,4 @@
 export let GLOBAL = {
-  url: 'http://146.83.198.35:3000/api/v1/',
-  imageUrl: 'http://146.83.198.35:3000/',
+  url: 'http://localhost:3977/api/v1/',
+  imageUrl: 'http://localhost:3977/',
 };

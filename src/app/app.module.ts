@@ -20,6 +20,9 @@ import { FollowingComponent } from './components/following/following.component';
 import { NoticeComponent } from './components/notice/notice.component';
 import { addNoticeComponent } from './components/addnotice/addnotice.component';
 
+// Servicios
+import { DpaService } from './services/dpa.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +46,7 @@ import { addNoticeComponent } from './components/addnotice/addnotice.component';
     HttpClientModule,
     MomentModule,
   ],
-  providers: [],
+  providers: [DpaService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

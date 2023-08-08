@@ -4,6 +4,8 @@ import { UserService } from 'src/app/services/user.service';
 import { GLOBAL } from 'src/app/services/global';
 import { Notice } from 'src/app/models/notice';
 import { NoticeService } from 'src/app/services/notice.service';
+import { DpaService } from 'src/app/services/dpa.service';
+import { RegionData, Region } from 'src/app/models/region';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -18,12 +20,15 @@ export class addNoticeComponent implements OnInit {
   public url: string;
   public status: string;
   public notice: Notice;
+  public regionData: RegionData = { regiones: [] };
+  public selectedRegionComunas: string[] = [];
 
   constructor(
     private _userService: UserService,
     private _noticeService: NoticeService,
     private _router: Router,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _dpaService: DpaService
   ) {
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken() || '';
@@ -41,26 +46,48 @@ export class addNoticeComponent implements OnInit {
       ' ',
       ''
     );
+    this.regionData = { regiones: [] };
   }
 
   ngOnInit() {
     console.log('addnotice.component cargado correctamente');
+    this.getRegionData();
   }
 
   onSubmitAddNotice() {
     console.log('Nuevo aviso:', this.notice);
 
-    // Llamamos al servicio para guardar el nuevo aviso
     this._noticeService.saveNotice(this.token, this.notice).subscribe(
       (response) => {
         console.log('Aviso creado correctamente:', response);
-        // Aquí puedes redireccionar a otra página o realizar alguna acción después de crear el aviso
-        // Por ejemplo, volver a la lista de avisos
+
         this._router.navigate(['/notices']);
       },
       (error) => {
         console.error('Error al crear el aviso:', error);
       }
     );
+  }
+
+  getRegionData() {
+    this._dpaService.getRegionData().subscribe(
+      (data: RegionData) => {
+        this.regionData = data;
+      },
+      (error) => {
+        console.log('Error al obtener los datos:', error);
+      }
+    );
+  }
+
+  onRegionChange() {
+    const selectedRegion = this.regionData.regiones.find(
+      (region) => region.region === this.notice.region
+    );
+    if (selectedRegion) {
+      this.selectedRegionComunas = selectedRegion.comunas;
+    } else {
+      this.selectedRegionComunas = [];
+    }
   }
 }
