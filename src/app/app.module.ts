@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { MomentModule } from 'ngx-moment';
+import { DatePipe } from '@angular/common';
 
 // Componentes
 import { AppComponent } from './app.component';
@@ -46,7 +47,7 @@ import { DpaService } from './services/dpa.service';
     HttpClientModule,
     MomentModule,
   ],
-  providers: [DpaService],
+  providers: [DpaService, DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

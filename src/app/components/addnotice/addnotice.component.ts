@@ -6,13 +6,13 @@ import { Notice } from 'src/app/models/notice';
 import { NoticeService } from 'src/app/services/notice.service';
 import { DpaService } from 'src/app/services/dpa.service';
 import { RegionData, Region } from 'src/app/models/region';
-import { NgForm } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'addnotice',
   templateUrl: './addnotice.component.html',
   styleUrls: ['./addnotice.component.css'],
-  providers: [UserService, NoticeService],
+  providers: [UserService, NoticeService, DatePipe],
 })
 export class addNoticeComponent implements OnInit {
   public identity: any;
@@ -22,6 +22,7 @@ export class addNoticeComponent implements OnInit {
   public notice: Notice;
   public regionData: RegionData = { regiones: [] };
   public selectedRegionComunas: string[] = [];
+  public formattedDate: string = '';
 
   constructor(
     private _userService: UserService,
@@ -39,7 +40,7 @@ export class addNoticeComponent implements OnInit {
       '',
       '',
       '',
-      '',
+      new Date('1995-12-17T03:24:00'),
       '',
       '',
       this.identity._id || '',
@@ -61,7 +62,7 @@ export class addNoticeComponent implements OnInit {
       (response) => {
         console.log('Aviso creado correctamente:', response);
 
-        this._router.navigate(['/notices']);
+        this._router.navigate(['/avisos', 1]);
       },
       (error) => {
         console.error('Error al crear el aviso:', error);
