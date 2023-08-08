@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Notice } from 'src/app/models/notice';
 import { GLOBAL } from 'src/app/services/global';
 import { UserService } from 'src/app/services/user.service';
 import { NoticeService } from 'src/app/services/notice.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'notice',
@@ -12,20 +13,19 @@ import { NoticeService } from 'src/app/services/notice.service';
   providers: [UserService, NoticeService],
 })
 export class NoticeComponent implements OnInit {
-  @Input() user: string;
+  @Input() user: string = '';
+
   public identity;
   public token;
-  public title;
-  public url;
-  public imageUrl;
-  public status;
-  public page;
-  public total;
-  public pages;
-  public itemsPerPage;
-  public notices: Notice[] = [];
-  public noMore: boolean;
+  public title: string = 'Avisos';
+  public url: string;
+  public imageUrl: string;
+  public status: string = '';
   public fetchedNotices: Notice[] = [];
+  public noMoreNotices: boolean = false;
+  public pageNotices: number = 1;
+  public pagesNotices: number = 0;
+  public formattedDate: string;
 
   constructor(
     private _route: ActivatedRoute,
@@ -33,39 +33,45 @@ export class NoticeComponent implements OnInit {
     private _userService: UserService,
     private _noticeService: NoticeService
   ) {
-    (this.title = 'Avisos'), (this.identity = this._userService.getIdentity());
+    this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
     this.url = GLOBAL.url;
     this.imageUrl = GLOBAL.imageUrl;
-    this.status = '';
-    this.page = 1;
-    this.total = 0;
-    this.pages = 0;
-    this.itemsPerPage = 0;
-    this.user = '';
-    this.noMore = false;
+    this.formattedDate = '';
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     console.log('notice.component cargado correctamente');
-    this.getNotices(this.page);
+    this.getNotices(this.pageNotices);
   }
 
-  getNotices(page: any) {
+  getNotices(page: number, adding = false) {
     if (this.token) {
       this._noticeService.getNotices(this.token, page).subscribe(
         (response) => {
           console.log(response);
 
           if (response.notices) {
-            this.fetchedNotices = response.notices;
-            this.total = response.total_items;
-            this.pages = response.pages;
-            this.itemsPerPage = response.itemsPerPage;
+            this.pagesNotices = response.pages;
 
-            if (page > this.pages) {
-              //this._router.navigate(['/home']);
+            if (!adding) {
+              this.fetchedNotices = response.notices;
+            } else {
+              this.fetchedNotices = this.fetchedNotices.concat(
+                response.notices
+              );
             }
+
+            this.noMoreNotices = this.pageNotices >= this.pagesNotices;
+
+            // Formatear las fechas utilizando Moment.js
+            this.fetchedNotices.forEach((notice: Notice) => {
+              const unixTimestamp = Number(notice.date); // Convierte a número
+              const formattedDate = moment
+                .unix(unixTimestamp)
+                .format('DD/MM/YY HH:mm');
+              notice.date = formattedDate;
+            });
           } else {
             this.status = 'error';
           }
@@ -76,17 +82,13 @@ export class NoticeComponent implements OnInit {
         }
       );
     } else {
-      // Manejar caso de token nulo
       this.status = 'error';
       console.log('Token is null');
     }
   }
 
-  viewMore() {
-    this.page += 1;
-    if (this.page == this.pages) {
-      this.noMore = true;
-    }
-    this.getNotices(this.page);
+  viewMoreNotices() {
+    this.pageNotices += 1;
+    this.getNotices(this.pageNotices, true);
   }
 }

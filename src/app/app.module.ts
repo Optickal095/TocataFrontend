@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { MomentModule } from 'ngx-moment';
+import { DatePipe } from '@angular/common';
 
 // Componentes
 import { AppComponent } from './app.component';
@@ -19,6 +20,9 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { FollowingComponent } from './components/following/following.component';
 import { NoticeComponent } from './components/notice/notice.component';
 import { addNoticeComponent } from './components/addnotice/addnotice.component';
+
+// Servicios
+import { DpaService } from './services/dpa.service';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,7 @@ import { addNoticeComponent } from './components/addnotice/addnotice.component';
     HttpClientModule,
     MomentModule,
   ],
-  providers: [],
+  providers: [DpaService, DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

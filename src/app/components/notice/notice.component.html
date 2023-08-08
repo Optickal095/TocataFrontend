@@ -73,7 +73,7 @@
                   </h5>
                   <h6 class="notice-date">
                     <i class="fa-solid fa-calendar-days"></i>
-                    {{ notice.date }}
+                    <p>{{ notice.date }}</p>
                   </h6>
                   <ng-container *ngIf="notice.phone && notice.email">
                     <h6 class="notice-contact">
@@ -105,5 +105,13 @@
         </div>
       </div>
     </div>
+  </div>
+  <div
+    class="col-lg-12 text-center"
+    *ngIf="
+      fetchedNotices.length > 0 && fetchedNotices.length >= 5 && !noMoreNotices
+    "
+  >
+    <button class="btn btn-success" (click)="viewMoreNotices()">Ver más</button>
   </div>
 </div>
