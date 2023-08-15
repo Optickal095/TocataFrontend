@@ -3,16 +3,36 @@
     <h1 class="h1-strong">{{ title }}</h1>
     <p class="jumboParraf">Disfruta de las publicaciones</p>
     <div class="jumboButtons">
-      <a class="btn btn-primary btn-lg disabled" role="button" href="#"
+      <a
+        class="btn btn-primary btn-lg"
+        role="button"
+        [routerLink]="['/timeline']"
+        [routerLinkActive]="['active']"
         >Publicaciones</a
       >
-      <a class="btn btn-success btn-lg disabled" role="button" href="#"
+      <a
+        class="btn btn-success btn-lg"
+        role="button"
+        [routerLink]="['/mis-datos']"
+        [routerLinkActive]="['active']"
         >Mi Perfil</a
       >
-      <a class="btn btn-warning btn-lg disabled" role="button" href="#"
+      <a
+        class="btn btn-warning btn-lg"
+        role="button"
+        [routerLink]="['/gente']"
+        [routerLinkActive]="['active']"
         >Gente</a
       >
-      <a class="btn btn-dark btn-lg disabled" role="button" href="#">Avisos</a>
+      <a
+        class="btn btn-dark btn-lg"
+        role="button"
+        [routerLink]="['/avisos', 1]"
+        [routerLinkActive]="['active']"
+        >Avisos</a
+      >
     </div>
   </div>
 </div>
+
+<app-all-publications></app-all-publications>
