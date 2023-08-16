@@ -24,6 +24,8 @@
 
 .item-publication .user-name {
   margin-left: 25px;
+  text-decoration: none;
+  color: #444;
 }
 
 .item-publication .date {
