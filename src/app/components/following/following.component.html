@@ -2,54 +2,66 @@
   <div class="row">
     <div class="col-lg-8">
       <h1 class="h1-strong">{{ title }}</h1>
-      <div class="people">
-        <!--
-        <div *ngFor="let user of users" class="item-user">
+      <div class="people" *ngIf="following">
+        <div *ngFor="let follow of following" class="item-user">
           <div class="card">
             <div class="card-body">
               <div class="image-user float-start">
-                <a [routerLink]="['/perfil', user._id]">
+                <a [routerLink]="['/perfil', follow.followed._id]">
                   <img
-                    src="{{ imageUrl + user.avatar }}"
+                    src="{{ imageUrl + follow.followed.avatar }}"
                     alt=""
                     class="portrait"
-                    *ngIf="user.avatar"
+                    *ngIf="follow.followed.avatar"
                   />
                   <img
                     src="../../../assets/images/userAvatar.png"
                     alt=""
                     class="portrait"
-                    *ngIf="!user.avatar"
+                    *ngIf="!follow.followed.avatar"
                   />
                 </a>
               </div>
               <div class="user-name float-sm-start">
                 <p>
-                  <a [routerLink]="['/perfil', user._id]" class="name-surname">
-                    {{ user.firstname + " " + user.lastname }}
+                  <a
+                    [routerLink]="['/perfil', follow.followed._id]"
+                    class="name-surname"
+                  >
+                    {{
+                      follow.followed.firstname + " " + follow.followed.lastname
+                    }}
                   </a>
                 </p>
                 <p class="nickname">
-                  {{ user.nick }}
+                  {{ follow.followed.nick }}
                 </p>
               </div>
-              <div class="float-end" *ngIf="user._id != identity._id">
+              <div
+                class="float-end"
+                *ngIf="follow.followed._id != identity._id"
+              >
                 <button
                   class="btn btn-success"
-                  *ngIf="follows.indexOf(user._id) < 0"
-                  (click)="followUser(user._id)"
+                  *ngIf="follows && follows.indexOf(follow.followed._id) < 0"
+                  (click)="followUser(follow.followed._id)"
                 >
                   <i class="fa-solid fa-circle-plus"></i> Seguir
                 </button>
                 <button
                   class="btn btn-primary"
-                  *ngIf="follows.indexOf(user._id) >= 0"
-                  (mouseenter)="mouseEnter(user._id)"
-                  (mouseleave)="mouseLeave(user._id)"
-                  (click)="unfollowUser(user._id)"
-                  [class.btn-danger]="user._id == followUserOver"
+                  *ngIf="follows && follows.indexOf(follow.followed._id) >= 0"
+                  (mouseenter)="mouseEnter(follow.followed._id)"
+                  (mouseleave)="mouseLeave(follow.followed._id)"
+                  (click)="unfollowUser(follow.followed._id)"
+                  [class.btn-danger]="follow.followed._id == followUserOver"
                 >
-                  <span *ngIf="user._id == followUserOver; else following">
+                  <span
+                    *ngIf="
+                      follow.followed._id == followUserOver;
+                      else following
+                    "
+                  >
                     <i class="fa-solid fa-circle-minus"></i> Dejar de Seguir
                   </span>
                   <ng-template #following>
@@ -60,44 +72,11 @@
             </div>
           </div>
         </div>
-        <nav aria-label="Page navigation example" class="float-end">
-          <ul class="pagination">
-            <li class="page-item" *ngIf="page == 1">
-              <a
-                class="page-link nav-button"
-                [routerLink]="['/gente', nextPage]"
-                >Siguiente</a
-              >
-            </li>
-            <li class="page-item" *ngIf="page > 1 && page < pages">
-              <div class="d-flex">
-                <a
-                  class="page-link mr-2 nav-button"
-                  [routerLink]="['/gente', prevPage]"
-                  >Anterior</a
-                >
-                <a class="page-link" [routerLink]="['/gente', nextPage]"
-                  >Siguiente</a
-                >
-              </div>
-            </li>
-            <li class="page-item" *ngIf="page === pages && page !== 1">
-              <a
-                class="page-link nav-button"
-                [routerLink]="['/gente', prevPage]"
-                >Anterior</a
-              >
-            </li>
-          </ul>
-        </nav>
       </div>
     </div>
-    -->
-        <div class="col-lg-4">
-          <sidebar></sidebar>
-        </div>
-      </div>
-      <div class="clearfix"></div>
+    <div class="col-lg-4">
+      <sidebar></sidebar>
     </div>
   </div>
+  <div class="clearfix"></div>
 </div>
