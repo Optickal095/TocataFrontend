@@ -1,0 +1,49 @@
+.h1-strong {
+  font-size: 35px;
+  font-weight: bold;
+  margin-left: 13px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.item-user {
+  margin-bottom: 10px;
+  margin-left: 13px;
+}
+
+.item-user .image-user {
+  position: relative;
+  width: 75px;
+  height: 75px;
+  overflow: hidden;
+}
+
+.item-user .image-user img {
+  position: absolute;
+  height: 100%;
+  width: auto;
+  border-radius: 100px;
+  object-fit: cover;
+}
+
+.item-user .user-name {
+  margin-left: 15px;
+}
+
+.item-user .user-name .nickname {
+  color: #969393;
+}
+
+.item-user .user-name .name-surname {
+  color: #444;
+  text-decoration: none;
+}
+
+.item-user .user-name .name-surname:hover {
+  text-decoration: underline;
+}
+
+.nav-button {
+  text-align: center;
+}

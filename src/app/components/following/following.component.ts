@@ -25,8 +25,9 @@ export class FollowingComponent implements OnInit {
   public users: User[] = [];
   public follows: any;
   public status: string;
-  public following;
+  public following: any[] = [];
   public followUserOver: any;
+  public userPageId: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -34,7 +35,7 @@ export class FollowingComponent implements OnInit {
     private _userService: UserService,
     private _followService: FollowService
   ) {
-    this.title = 'Gente';
+    this.title = 'Usuarios seguidos';
     this.imageUrl = GLOBAL.imageUrl;
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken() || '';
@@ -46,7 +47,7 @@ export class FollowingComponent implements OnInit {
     this.pages = 0;
     this.follows = [];
     this.followUserOver = 0;
-    this.following = 0;
+    this.following = [];
   }
 
   ngOnInit() {
@@ -57,6 +58,7 @@ export class FollowingComponent implements OnInit {
   actualPage() {
     this._route.params.subscribe((params: Params) => {
       let user_id = params['id'];
+      this.userPageId = user_id;
       let page = +params['page'];
       this.page = page || 1;
 
@@ -71,7 +73,7 @@ export class FollowingComponent implements OnInit {
         this.prevPage = 1;
       }
 
-      this.getFollows(user_id, this.page);
+      this.getUser(user_id, page);
     });
   }
 
@@ -91,6 +93,27 @@ export class FollowingComponent implements OnInit {
           if (page > this.pages) {
             this._router.navigate(['/gente', 1]);
           }
+        }
+      },
+      (error) => {
+        let errorMessage: any = error;
+        console.log(errorMessage);
+
+        if (errorMessage != null) {
+          this.status = 'error';
+        }
+      }
+    );
+  }
+
+  getUser(user_id: any, page: any) {
+    this._userService.getUser(user_id).subscribe(
+      (response) => {
+        if (response.user) {
+          this.users = response.user;
+          this.getFollows(user_id, this.page);
+        } else {
+          this._router.navigate(['/home']);
         }
       },
       (error) => {

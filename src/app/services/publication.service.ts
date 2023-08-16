@@ -64,4 +64,14 @@ export class PublicationService {
       headers: headers,
     });
   }
+
+  getAllPublications(token: string, page = 1): Observable<any> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
+
+    return this._http.get(this.url + 'allpublications/' + page, {
+      headers: headers,
+    });
+  }
 }

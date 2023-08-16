@@ -26,6 +26,7 @@ export class PublicationsComponent implements OnInit {
   public itemsPerPage;
   public publications: Publication[] = [];
   public noMore: boolean;
+  public showImage;
 
   constructor(
     private _route: ActivatedRoute,
@@ -45,6 +46,7 @@ export class PublicationsComponent implements OnInit {
     this.itemsPerPage = 0;
     this.noMore = false;
     this.user = '';
+    this.showImage = '';
   }
 
   ngOnInit() {
@@ -102,5 +104,34 @@ export class PublicationsComponent implements OnInit {
       this.noMore = true;
     }
     this.getPublications(this.user, this.page, true);
+  }
+
+  refresh() {
+    this.getPublications(this.user, 1);
+  }
+
+  showThisImage(id: any) {
+    this.showImage = id;
+  }
+
+  hideThisImage(id: any) {
+    this.showImage = '';
+  }
+
+  deletePublication(id: any) {
+    if (this.token && typeof id === 'string') {
+      this._publicationService.deletePublication(this.token, id).subscribe(
+        (response) => {
+          this.refresh();
+        },
+        (error) => {
+          console.log(<any>error);
+        }
+      );
+    } else {
+      console.log(
+        'El token o el ID de la publicación son nulos o no son válidos.'
+      );
+    }
   }
 }

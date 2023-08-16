@@ -20,9 +20,12 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { FollowingComponent } from './components/following/following.component';
 import { NoticeComponent } from './components/notice/notice.component';
 import { addNoticeComponent } from './components/addnotice/addnotice.component';
+import { AllPublicationsComponent } from './components/allPublications/allpublications.controller';
 
 // Servicios
 import { DpaService } from './services/dpa.service';
+import { PublicationService } from './services/publication.service';
+import { FollowService } from './services/follow.service';
 
 @NgModule({
   declarations: [
@@ -39,6 +42,7 @@ import { DpaService } from './services/dpa.service';
     FollowingComponent,
     NoticeComponent,
     addNoticeComponent,
+    AllPublicationsComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +51,7 @@ import { DpaService } from './services/dpa.service';
     HttpClientModule,
     MomentModule,
   ],
-  providers: [DpaService, DatePipe],
+  providers: [DpaService, DatePipe, PublicationService, FollowService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
