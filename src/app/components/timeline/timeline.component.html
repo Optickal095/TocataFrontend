@@ -159,7 +159,7 @@
                     />
                   </div>
                 </div>
-                <div *ngIf="publication.audio">
+                <div id="waveform" *ngIf="publication.audio">
                   <audio controls>
                     <source
                       [src]="url + 'get-audio-pub/' + publication.audio"

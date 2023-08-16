@@ -70,4 +70,13 @@ export class UploadService {
       xhr.send(formData);
     });
   }
+
+  uploadAudio(
+    url: string,
+    files: Array<File>,
+    token: string,
+    name: string
+  ): Promise<any> {
+    return this.makeFileRequest(url, [], files, token, name);
+  }
 }

@@ -75,6 +75,16 @@
       />
     </p>
 
+    <p>
+      <label class="file">Sube tu audio</label>
+      <input
+        type="file"
+        placeholder="Subir audio"
+        (change)="audioFileChangeEvent($event)"
+        accept="audio/*"
+      />
+    </p>
+
     <input
       type="submit"
       value="Enviar"

@@ -6,6 +6,7 @@ import { Publication } from 'src/app/models/publication';
 import { PublicationService } from 'src/app/services/publication.service';
 import { UploadService } from 'src/app/services/upload.service';
 import { NgForm } from '@angular/forms';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'sidebar',
@@ -23,13 +24,15 @@ export class SidebarComponent implements OnInit {
   public publication: Publication;
   public filesToUpload: Array<File>;
   public file: File;
+  public audioFile: File;
 
   constructor(
     private userService: UserService,
     private publicationService: PublicationService,
     private _uploadService: UploadService,
     private _route: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.identity = this.userService.getIdentity();
     this.token = this.userService.getToken() || '';
@@ -48,6 +51,7 @@ export class SidebarComponent implements OnInit {
 
     this.filesToUpload = [];
     this.file = new File([], '');
+    this.audioFile = new File([], '');
   }
 
   ngOnInit() {
@@ -97,6 +101,19 @@ export class SidebarComponent implements OnInit {
               this._router.navigate(['/timeline']);
               this.sended.emit({ send: 'true' });
             }
+
+            if (this.audioFile) {
+              this._uploadService
+                .uploadAudio(
+                  this.url + 'upload-audio-pub/' + response._id,
+                  [this.audioFile],
+                  this.token,
+                  'audio'
+                )
+                .then((result: any) => {
+                  this.changeDetectorRef.detectChanges();
+                });
+            }
           } else {
             this.status = 'error';
           }
@@ -115,5 +132,9 @@ export class SidebarComponent implements OnInit {
 
   fileChangeEvent(fileInput: any) {
     this.filesToUpload = <Array<File>>fileInput.target.files;
+  }
+
+  audioFileChangeEvent(event: any) {
+    this.audioFile = event.target.files[0];
   }
 }
