@@ -34,8 +34,9 @@
           class="form-control"
           id="date"
           name="date"
-          [ngModel]="formattedDate"
-          (ngModelChange)="onDateChange($event)"
+          [(ngModel)]="formattedDate"
+          (change)="onDateChange(dateInput.value)"
+          #dateInput
           required
         />
         <div class="mb-3">

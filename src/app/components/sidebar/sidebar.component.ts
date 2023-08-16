@@ -42,6 +42,7 @@ export class SidebarComponent implements OnInit {
       '',
       '',
       '',
+      '',
       this.identity?._id || ''
     );
 
@@ -67,6 +68,7 @@ export class SidebarComponent implements OnInit {
 
           if (response && response._id) {
             this.publication = new Publication(
+              '',
               '',
               '',
               '',

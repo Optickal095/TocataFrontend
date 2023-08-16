@@ -41,6 +41,7 @@
               <h4 class="publication-text">
                 {{ publication.text }}
               </h4>
+
               <button
                 type="button"
                 class="btn btn-warning me-2"
@@ -65,6 +66,15 @@
                   class="col-lg-12"
                   alt="Publicación Image"
                 />
+              </div>
+              <div *ngIf="publication.audio">
+                <audio controls>
+                  <source
+                    [src]="url + 'get-audio-pub/' + publication.audio"
+                    type="audio/mpeg"
+                  />
+                  Tu navegador no soporta la reproducción de audio.
+                </audio>
               </div>
             </div>
           </div>

@@ -58,15 +58,12 @@ export class addNoticeComponent implements OnInit {
   }
 
   onSubmitAddNotice() {
-    console.log('Nuevo aviso:', this.notice);
-
-    const unixDate = moment(this.formattedDate, 'DD/MM/YYYY HH:mm').unix();
+    const unixDate = moment(this.formattedDate, 'YYYY-MM-DDTHH:mm').unix();
     this.notice.date = unixDate.toString();
 
     this._noticeService.saveNotice(this.token, this.notice).subscribe(
       (response) => {
         console.log('Aviso creado correctamente:', response);
-
         this._router.navigate(['/avisos', 1]);
       },
       (error) => {

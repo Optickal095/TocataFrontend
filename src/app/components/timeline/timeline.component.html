@@ -159,6 +159,15 @@
                     />
                   </div>
                 </div>
+                <div *ngIf="publication.audio">
+                  <audio controls>
+                    <source
+                      [src]="url + 'get-audio-pub/' + publication.audio"
+                      type="audio/mpeg"
+                    />
+                    Tu navegador no soporta la reproducción de audio.
+                  </audio>
+                </div>
               </div>
             </div>
           </div>
