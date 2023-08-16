@@ -25,6 +25,7 @@ import { AllPublicationsComponent } from './components/allPublications/allpublic
 // Servicios
 import { DpaService } from './services/dpa.service';
 import { PublicationService } from './services/publication.service';
+import { FollowService } from './services/follow.service';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,7 @@ import { PublicationService } from './services/publication.service';
     HttpClientModule,
     MomentModule,
   ],
-  providers: [DpaService, DatePipe, PublicationService],
+  providers: [DpaService, DatePipe, PublicationService, FollowService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

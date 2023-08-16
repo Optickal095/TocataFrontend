@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Publication } from 'src/app/models/publication';
+import { User } from 'src/app/models/user';
 import { PublicationService } from 'src/app/services/publication.service';
 import { UserService } from 'src/app/services/user.service';
+import { FollowService } from 'src/app/services/follow.service';
 import { GLOBAL } from 'src/app/services/global';
 
 @Component({
@@ -16,15 +18,21 @@ export class AllPublicationsComponent implements OnInit {
   public url = GLOBAL.url;
   public imageUrl = GLOBAL.imageUrl;
   public showImage: any;
+  public identity: any;
+  public follows: string[] = [];
+  public users: User[] = [];
+
   constructor(
     private _publicationService: PublicationService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _followService: FollowService
   ) {}
 
   ngOnInit(): void {
-    this.loadPublications();
     this.token = this._userService.getToken() || '';
+    this.loadPublications();
     this.showImage = '';
+    this.identity = this._userService.getIdentity();
   }
 
   loadPublications() {
