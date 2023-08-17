@@ -3,6 +3,11 @@
   margin-left: 13px;
 }
 
+.item-notices .card {
+  height: 300px;
+  overflow-y: auto;
+}
+
 .item-notices .image-user {
   position: relative;
   width: 75px;

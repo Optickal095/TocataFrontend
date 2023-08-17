@@ -58,10 +58,9 @@ export class addNoticeComponent implements OnInit {
   }
 
   onSubmitAddNotice() {
-    const isoDate = moment(
-      this.formattedDate,
-      'YYYY-MM-DDTHH:mm'
-    ).toISOString();
+    const isoDate = this.formattedDate
+      ? moment(this.formattedDate, 'YYYY-MM-DDTHH:mm').toISOString()
+      : null;
 
     const noticeData = {
       title: this.notice.title,
