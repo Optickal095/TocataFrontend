@@ -66,10 +66,9 @@ export class NoticeComponent implements OnInit {
 
             // Formatear las fechas utilizando Moment.js
             this.fetchedNotices.forEach((notice: Notice) => {
-              const unixTimestamp = Number(notice.date); // Convierte a número
-              const formattedDate = moment
-                .unix(unixTimestamp)
-                .format('DD/MM/YY HH:mm');
+              const formattedDate = moment(notice.date).format(
+                'DD/MM/YY HH:mm'
+              );
               notice.date = formattedDate;
             });
           } else {

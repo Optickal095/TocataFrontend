@@ -35,7 +35,7 @@
           id="date"
           name="date"
           [(ngModel)]="formattedDate"
-          (change)="onDateChange(dateInput.value)"
+          (change)="onDateChange($event)"
           #dateInput
           required
         />
@@ -87,11 +87,12 @@
         <div class="mb-3">
           <label for="contact" class="form-label">Teléfono</label>
           <input
-            type="text"
+            type="number"
             class="form-control"
             id="contact"
             name="contact"
             [(ngModel)]="notice.phone"
+            placeholder="Ej: 912345678"
             required
           />
         </div>
