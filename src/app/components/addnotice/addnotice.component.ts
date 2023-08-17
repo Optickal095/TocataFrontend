@@ -58,10 +58,21 @@ export class addNoticeComponent implements OnInit {
   }
 
   onSubmitAddNotice() {
-    const unixDate = moment(this.formattedDate, 'YYYY-MM-DDTHH:mm').unix();
-    this.notice.date = unixDate.toString();
+    const isoDate = this.formattedDate
+      ? moment(this.formattedDate, 'YYYY-MM-DDTHH:mm').toISOString()
+      : null;
 
-    this._noticeService.saveNotice(this.token, this.notice).subscribe(
+    const noticeData = {
+      title: this.notice.title,
+      text: this.notice.text,
+      datetime: isoDate,
+      region: this.notice.region,
+      city: this.notice.city,
+      phone: this.notice.phone,
+      email: this.notice.email,
+    };
+
+    this._noticeService.saveNotice(this.token, noticeData).subscribe(
       (response) => {
         console.log('Aviso creado correctamente:', response);
         this._router.navigate(['/avisos', 1]);
@@ -94,10 +105,9 @@ export class addNoticeComponent implements OnInit {
     }
   }
 
-  onDateChange(dateValue: string) {
-    this.formattedDate = dateValue;
-
-    const unixDate = moment(dateValue, 'YYYY/MM/DD HH:mm').unix();
+  onDateChange(event: Event) {
+    const dateValue = (event.target as HTMLInputElement).value;
+    const unixDate = moment(dateValue, 'YYYY-MM-DDTHH:mm').unix();
     this.notice.date = unixDate.toString();
   }
 }

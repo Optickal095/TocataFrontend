@@ -64,13 +64,17 @@ export class NoticeComponent implements OnInit {
 
             this.noMoreNotices = this.pageNotices >= this.pagesNotices;
 
-            // Formatear las fechas utilizando Moment.js
+            // Formatear todas las fechas utilizando Moment.js
             this.fetchedNotices.forEach((notice: Notice) => {
-              const unixTimestamp = Number(notice.date); // Convierte a número
-              const formattedDate = moment
-                .unix(unixTimestamp)
-                .format('DD/MM/YY HH:mm');
-              notice.date = formattedDate;
+              if (notice.date && !isNaN(new Date(notice.date).getTime())) {
+                const date = new Date(notice.date);
+                const formattedDate = `${date.getDate()}/${
+                  date.getMonth() + 1
+                }/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+                notice.date = formattedDate;
+              } else {
+                notice.date = 'Fecha inválida';
+              }
             });
           } else {
             this.status = 'error';

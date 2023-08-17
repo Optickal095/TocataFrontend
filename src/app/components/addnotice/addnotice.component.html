@@ -29,16 +29,20 @@
             required
           ></textarea>
         </div>
-        <input
-          type="datetime-local"
-          class="form-control"
-          id="date"
-          name="date"
-          [(ngModel)]="formattedDate"
-          (change)="onDateChange(dateInput.value)"
-          #dateInput
-          required
-        />
+        <div class="mb-3">
+          <label for="text" class="form-label">Fecha y Hora</label>
+          <input
+            type="datetime-local"
+            class="form-control"
+            id="date"
+            name="date"
+            [(ngModel)]="formattedDate"
+            (change)="onDateChange($event)"
+            #dateInput
+            required
+          />
+        </div>
+
         <div class="mb-3">
           <label for="region" class="form-label">Región</label>
           <select
@@ -49,7 +53,7 @@
             (change)="onRegionChange()"
             required
           >
-            <option value="" disabled>Select a region</option>
+            <option value="" disabled>Selecciona región</option>
             <option
               *ngFor="let region of regionData.regiones"
               [value]="region.region"
@@ -67,7 +71,7 @@
             [(ngModel)]="notice.city"
             required
           >
-            <option value="" disabled>Select a city</option>
+            <option value="" disabled>Selecciona comuna</option>
             <option *ngFor="let comuna of selectedRegionComunas">
               {{ comuna }}
             </option>
@@ -87,11 +91,12 @@
         <div class="mb-3">
           <label for="contact" class="form-label">Teléfono</label>
           <input
-            type="text"
+            type="number"
             class="form-control"
             id="contact"
             name="contact"
             [(ngModel)]="notice.phone"
+            placeholder="Ej: 912345678"
             required
           />
         </div>

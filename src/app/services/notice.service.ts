@@ -12,12 +12,10 @@ export class NoticeService {
     this.url = GLOBAL.url;
   }
 
-  saveNotice(token: string, notice: Notice): Observable<any> {
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Authorization', token);
+  saveNotice(token: string, noticeData: any): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', token);
 
-    return this._http.post(this.url + 'notice', notice, { headers: headers });
+    return this._http.post(this.url + 'notice', noticeData, { headers });
   }
 
   getNotices(token: string, page = 1): Observable<any> {
